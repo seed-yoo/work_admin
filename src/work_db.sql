@@ -86,13 +86,28 @@ value (40,  'test','영업3팀');
 insert into department
 value (20, 'test', '마케팅');
 
-select *
+select department_id,
+	   user_id,
+       department_name
 from department;
 
-select *
+insert into department
+value (50, 'test', '영업4팀');
+
+select user_id,
+	   pw,
+       department_id,
+       user_name,
+       user_address,
+       user_hp,
+       user_email,
+       hire_date
 from user;
 
-select *
+select work_id,
+	   user_id,
+       state,
+       date_format(work_date, '%Y-%m-%d') work_date
 from work;
 
 insert into work
@@ -101,3 +116,7 @@ value (null, 'yhy', '무단결근', '2024-01-27');
 insert into department
 value (10, 'test', '영업1팀');
 
+update department
+set user_id = 'yoo',
+	department_name = '영업6팀'
+where department_id = 60;
