@@ -117,6 +117,6 @@ insert into department
 value (10, 'test', '영업1팀');
 
 update department
-set user_id = 'yoo',
-	department_name = '영업6팀'
-where department_id = 60;
+set user_id = null,
+	department_name = null
+where department_id = 100;
