@@ -109,21 +109,16 @@ public class WorkDao {
 	// 근태현황 수정
 	// work리스트
 	public List<WorkVo> workList(String userId) {
-		// 리스트 만들고
-		// db에서 데이터 가져오고
-		// 리스트에 추가하기
-		// 리스트 주소 전달하기
 
 		// 리스트 준비
 		List<WorkVo> workList = new ArrayList<WorkVo>();
 
+		this.getConnection();
+
 		try {
-			// 1. JDBC 드라이버 (Oracle) 로딩
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			// 2. Connection 얻어오기
-			String url = "jdbc:mysql://192.168.0.59:3306/work_db";
-			conn = DriverManager.getConnection(url, "work", "work");
+
 			// 3. SQL문 준비 / 바인딩 / 실행
+			// - sql문 준비
 			String query = "";
 			query += "select user_id, ";
 			query += "       state, ";
@@ -131,11 +126,12 @@ public class WorkDao {
 			query += " from work ";
 			query += " where user_id=? ";
 
-			// -바인딩
+			// - 바인딩
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, userId);
-
-			// -실행
+			
+			
+			// - 실행
 			rs = pstmt.executeQuery();
 
 			// 4.결과처리
@@ -148,14 +144,12 @@ public class WorkDao {
 
 				workList.add(workVo);
 			}
-
-		} catch (ClassNotFoundException e) {
-			System.out.println("error: 드라이버 로딩 실패 - " + e);
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
 		}
 
 		this.close();
+
 		return workList;
 	}
 
@@ -183,28 +177,14 @@ public class WorkDao {
 			// - 실행
 			count = pstmt.executeUpdate();
 			// 4.결과처리
-			 System.out.println(count + "건 수정 되었습니다.");
+			System.out.println(count + "건 수정 되었습니다.");
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("error: 드라이버 로딩 실패 - " + e);
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
-		} finally {
-			// 5. 자원정리
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-				if (pstmt != null) {
-					pstmt.close();
-				}
-				if (conn != null) {
-					conn.close();
-				}
-			} catch (SQLException e) {
-				System.out.println("error:" + e);
-			}
 		}
+		this.close();
 		return count;
 	}
 
@@ -303,6 +283,7 @@ public class WorkDao {
 
 			// 3. SQL문 준비 / 바인딩 / 실행
 			// - sql문 준비
+	
 			String query = "";
 			query += " update department ";
 			query += " set user_id = ?, ";
@@ -313,6 +294,81 @@ public class WorkDao {
 			pstmt.setString(1, departmentVo.getUser_id());
 			pstmt.setString(2, departmentVo.getDepartment_name());
 			pstmt.setInt(3, departmentVo.getDepartment_id());
+			
+			
+			// - 실행
+			// count = pstmt.executeUpdate();
+
+			// 4.결과처리
+			// System.out.println(count + "건 수정 되었습니다.");
+			// System.out.println("수정완료");
+
+		} catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		this.close();
+		return count;
+
+	}
+
+	// 부서 삭제
+	public int departmentDelete(DepartmentVo departmentVo) {
+
+		int count = -1;
+
+		this.getConnection();
+		// 0. import java.sql.*;
+
+		try {
+
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// - sql문 준비
+			String query = "";
+			query += " delete from department ";
+			query += " where department_id = ? ";
+			// - 바인딩
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, departmentVo.getDepartment_id());
+
+			// - 실행
+			count = pstmt.executeUpdate();
+
+			// 4.결과처리
+			// System.out.println(count + "건 수정 되었습니다.");
+			System.out.println("삭제완료");
+
+		} catch (SQLException e) {
+			System.out.println("error: " + e);
+		} catch (NullPointerException e) {
+			System.out.println("부서번호를 확인해주세요");
+		}
+		this.close();
+		return count;
+
+	}
+
+	
+	// 부서 수정
+	public int departmentFinsert(int n) {
+
+		int count = -1;
+
+		this.getConnection();
+		// 0. import java.sql.*;
+
+		try {
+
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// - sql문 준비
+	
+			String query = "";
+			query += " set foreign_key_checks = 0 ";
+
+			// - 바인딩
+			pstmt = conn.prepareStatement(query);
+			//pstmt.setInt(1, n);
+			
+			
 			// - 실행
 			count = pstmt.executeUpdate();
 
@@ -328,4 +384,7 @@ public class WorkDao {
 
 	}
 
+	
+	
+	
 }

@@ -25,6 +25,11 @@ CREATE TABLE user (
 	user_email			varchar(20),
 	hire_date			datetime
 );
+
+
+
+
+
 ALTER TABLE department ADD CONSTRAINT FK_user_TO_user_1 FOREIGN KEY (
 	user_id
 )
@@ -72,7 +77,7 @@ insert into user
 value ('yhr', 20, 'yhr', '유혜련', '경기도 하남시' , '010-8888-8888' , 'yhr@naver.com', '2024/01/11');
 
 insert into user
-value ('yhy', 20, 'yhy', '유혜영', '경기도 광주' , '010-3333-4444' , 'yhy@naver.com', '2024/01/16');
+value ('yyy', 100, 'yhy', '유혜영', '경기도 광주' , '010-3333-4444' , 'yhy@naver.com', '2024/01/16');
 
 insert into department
 value (10, 'test', '영업1팀');
@@ -114,9 +119,39 @@ insert into work
 value (null, 'yhy', '무단결근', '2024-01-27');
 
 insert into department
-value (10, 'test', '영업1팀');
+value (100, 'test', '영업99팀');
+
+
+set foreign_key_checks = 0;
 
 update department
-set user_id = null,
-	department_name = null
+set user_id = 'tttt',
+	department_name = '사업부'
+where department_id = 20;
+
+set foreign_key_checks = 1;
+
+
+
+
+
+
+select *
+from department;
+
+delete from department
 where department_id = 100;
+
+
+delete from user
+where user_id = 'yyy';
+
+
+
+select user_id,
+	   state,
+	   date_format(work_date, '%Y-%m-%d') work_date
+from work
+where user_id=1;
+
+
