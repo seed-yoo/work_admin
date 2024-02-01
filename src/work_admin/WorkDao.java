@@ -10,7 +10,7 @@ import java.util.List;
 
 public class WorkDao {
 
-// 필드
+	// 필드
 	private Connection conn = null;
 	private PreparedStatement pstmt = null;
 	private ResultSet rs = null;
@@ -129,8 +129,7 @@ public class WorkDao {
 			// - 바인딩
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, userId);
-			
-			
+
 			// - 실행
 			rs = pstmt.executeQuery();
 
@@ -157,14 +156,16 @@ public class WorkDao {
 	public int workUpdate(String userId, String workDate, String workState) {
 		int count = -1;
 
-		this.getConnection();
-
 		try {
 			// 1. JDBC 드라이버 (Oracle) 로딩
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			// 2. Connection 얻어오기
 			String url = "jdbc:mysql://192.168.0.59:3306/work_db";
 			conn = DriverManager.getConnection(url, "work", "work");
+			
+			
+			
+			
 			// 3. SQL문 준비 / 바인딩 / 실행
 			String query = "";
 			query += " update work set state=? where work_date=? and user_id=? ";
@@ -177,7 +178,7 @@ public class WorkDao {
 			// - 실행
 			count = pstmt.executeUpdate();
 			// 4.결과처리
-			System.out.println(count + "건 수정 되었습니다.");
+			//System.out.println(count + "건 수정 되었습니다.");
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("error: 드라이버 로딩 실패 - " + e);
@@ -283,7 +284,7 @@ public class WorkDao {
 
 			// 3. SQL문 준비 / 바인딩 / 실행
 			// - sql문 준비
-	
+
 			String query = "";
 			query += " update department ";
 			query += " set user_id = ?, ";
@@ -295,13 +296,16 @@ public class WorkDao {
 			pstmt.setString(2, departmentVo.getDepartment_name());
 			pstmt.setInt(3, departmentVo.getDepartment_id());
 			
+			System.out.println(departmentVo.getUser_id());
+			System.out.println(departmentVo.getDepartment_name());
+			System.out.println(departmentVo.getDepartment_id());
 			
 			// - 실행
 			// count = pstmt.executeUpdate();
 
 			// 4.결과처리
 			// System.out.println(count + "건 수정 되었습니다.");
-			// System.out.println("수정완료");
+			 System.out.println("수정완료");
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
@@ -347,44 +351,31 @@ public class WorkDao {
 
 	}
 
-	
-	// 부서 수정
-	public int departmentFinsert(int n) {
-
-		int count = -1;
-
-		this.getConnection();
-		// 0. import java.sql.*;
-
-		try {
-
-			// 3. SQL문 준비 / 바인딩 / 실행
-			// - sql문 준비
-	
-			String query = "";
-			query += " set foreign_key_checks = 0 ";
-
-			// - 바인딩
-			pstmt = conn.prepareStatement(query);
-			//pstmt.setInt(1, n);
-			
-			
-			// - 실행
-			count = pstmt.executeUpdate();
-
-			// 4.결과처리
-			// System.out.println(count + "건 수정 되었습니다.");
-			// System.out.println("수정완료");
-
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		}
-		this.close();
-		return count;
-
-	}
-
-	
-	
-	
+	/*
+	 * public int departmentFinsert(int n) {
+	 * 
+	 * int count = -1;
+	 * 
+	 * this.getConnection(); // 0. import java.sql.*;
+	 * 
+	 * try {
+	 * 
+	 * // 3. SQL문 준비 / 바인딩 / 실행 // - sql문 준비
+	 * 
+	 * String query = ""; query += " set foreign_key_checks = 0 ";
+	 * 
+	 * // - 바인딩 pstmt = conn.prepareStatement(query); //pstmt.setInt(1, n);
+	 * 
+	 * 
+	 * // - 실행 count = pstmt.executeUpdate();
+	 * 
+	 * // 4.결과처리 // System.out.println(count + "건 수정 되었습니다."); //
+	 * System.out.println("수정완료");
+	 * 
+	 * } catch (SQLException e) { System.out.println("error:" + e); } this.close();
+	 * return count;
+	 * 
+	 * }
+	 * 
+	 */
 }
