@@ -183,7 +183,7 @@ public class WorkDao {
 			// - 실행
 			count = pstmt.executeUpdate();
 			// 4.결과처리
-			// System.out.println(count + "건 수정 되었습니다.");
+			 System.out.println(count + "건 수정 되었습니다.");
 
 		} catch (ClassNotFoundException e) {
 			System.out.println("error: 드라이버 로딩 실패 - " + e);
@@ -318,6 +318,7 @@ public class WorkDao {
 
 			// 4.결과처리
 			// System.out.println(count + "건 수정 되었습니다.");
+			// System.out.println("수정완료");
 
 		} catch (SQLException e) {
 			System.out.println("error:" + e);
